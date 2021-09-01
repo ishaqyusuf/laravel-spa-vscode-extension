@@ -1,0 +1,180 @@
+{
+  "name": "lara-spa-vscode",
+  "preview": true,
+  "displayName": "LaraSpa Vscode",
+  "description": "VS Code for LaraSpa",
+  "version": "0.3.5",
+  "publisher": "ishaqyusuf",
+  "license": "MIT",
+  "icon": "res/icon.png",
+  "scripts": {
+    "compile": "vsce package && vsce publish",
+    "vscode:prepublish": "npm run build",
+    "build": "tsup src/extension.ts --dts --external=vscode",
+    "dev": "npm run build -- --watch",
+    "release": "npx bumpp --commit --tag --push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ishaqyusuf/vscode-laravel-vite"
+  },
+  "engines": {
+    "vscode": "^1.52.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*",
+    "onFileSystem:vite.config.js",
+    "onFileSystem:vite.config.ts"
+  ],
+  "main": "./dist/extension.js",
+  "extensionPack": [
+    "antfu.browse-lite"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "laraspa.stop",
+        "category": "LaraSpa",
+        "title": "Stop Server"
+      },
+      {
+        "command": "laraspa.restart",
+        "category": "LaraSpa",
+        "title": "Start Server"
+      },
+      {
+        "command": "laraspa.open",
+        "category": "LaraSpa",
+        "title": "Open Vite app"
+      },
+      {
+        "command": "laraspa.showCommands",
+        "category": "LaraSpa",
+        "title": "Show commands",
+        "icon": "$(symbol-event)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceScheme == webview-panel && browse-lite-active",
+          "command": "laraspa.showCommands",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "laraspa",
+      "properties": {
+        "laraspa.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Start Vite server with VS Code"
+        },
+        "laraspa.browserType": {
+          "type": "string",
+          "enum": [
+            "embedded",
+            "system"
+          ],
+          "default": "embedded",
+          "description": "Browser to open Vite app"
+        },
+        "laraspa.port": {
+          "type": "number",
+          "default": 3000,
+          "description": "Port for Vite server"
+        },
+        "laraspa.vitePort": {
+          "type": "number",
+          "default": 3000,
+          "description": "Port for Vite server"
+        },
+        "laraspa.laravelPort": {
+          "type": "number",
+          "default": 8000,
+          "description": "Port for Laravel server"
+        },
+        "laraspa.host": {
+          "type": "string",
+          "default": "localhost",
+          "description": "Host for Vite server"
+        },
+        "laraspa.base": {
+          "type": "string",
+          "default": "",
+          "description": "Base path for open the app"
+        },
+        "laraspa.https": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable https"
+        },
+        "laraspa.pingInterval": {
+          "type": "number",
+          "default": 200,
+          "description": "Interval in mileseconds to try on pinging for server to start"
+        },
+        "laraspa.maximumTimeout": {
+          "type": "number",
+          "default": 30000,
+          "description": "Maximum timeout in mileseconds waiting for server to start"
+        },
+        "laraspa.showTerminal": {
+          "type": "boolean",
+          "default": false,
+          "description": "Force on terminal when server starts"
+        },
+        "laraspa.notifyOnStarted": {
+          "type": "boolean",
+          "default": true,
+          "description": "Send notification when server starts"
+        },
+        "laraspa.devCommand": {
+          "type": "string",
+          "description": "Command for dev"
+        },
+        "laraspa.buildCommand": {
+          "type": "string",
+          "default": "npm run build",
+          "description": "Command for build"
+        },
+        "laraspa.vitepress": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use vitepress if available"
+        },
+        "laraspa.vitepressBase": {
+          "type": "string",
+          "default": "",
+          "description": "Base path for Vitepress"
+        },
+        "laraspa.vitepressAutoRouting": {
+          "type": "boolean",
+          "default": false,
+          "description": "Navigate to the page you are working on"
+        },
+        "laraspa.open": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open app on server ready"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.6.2",
+    "@types/node": "^14.14.37",
+    "@types/vscode": "^1.52.0",
+    "eslint": "^7.23.0",
+    "pkg-up": "^3.1.0",
+    "tsup": "^4.8.21",
+    "types-package-json": "^2.0.31",
+    "typescript": "^4.2.3",
+    "vite": "^2.1.5"
+  }
+}
